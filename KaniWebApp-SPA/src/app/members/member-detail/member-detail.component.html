@@ -1,20 +1,23 @@
 <div class="container mt-4">
   <div class="row">
+    <h3>{{user.nickname}}'s Profile</h3>
+  </div>
+  <div class="row">
     <div class="col-sm-4">
       <div class="card">
-        <img class="card-img-top img-thumbnail" src="{{user?.imageUrl}}" alt="{{user?.nickname}}">
+        <img class="card-img-top img-thumbnail" src="{{user.imageUrl}}" alt="{{user.nickname}}">
         <div class="card-body">
           <div>
             <strong>Location:</strong>
-            <p>{{user?.country}}, {{user?.city}}</p>
+            <p>{{user.country}}, {{user.city}}</p>
           </div>
           <div>
             <strong>Last Active:</strong>
-            <p>{{user?.lastActive}}</p>
+            <p>{{user.lastActive}}</p>
           </div>
           <div>
             <strong>Member since:</strong>
-            <p>{{user?.created}}</p>
+            <p>{{user.created}}</p>
           </div>
         </div>
         <div class="card-footer">
@@ -28,14 +31,14 @@
     <div class="col-sm-8">
       <div class="tab-panel">
         <tabset class="member-tabset">
-          <tab heading="About {{user?.nickname}}">
-            <p>{{user?.aboutMe}}</p>
+          <tab heading="About {{user.nickname}}">
+            <p>{{user.aboutMe}}</p>
           </tab>
           <tab heading="Images">
-            <p>TODO images</p>
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
           </tab>
           <tab heading="Messages">
-            <p>TODO images</p>
+            <p>TODO messages</p>
           </tab>
         </tabset>
       </div>

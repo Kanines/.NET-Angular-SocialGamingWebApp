@@ -6,7 +6,7 @@
 @import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
 
 .tab-panel {
-  border: 1px solid #303030;
+  background-color: #303030;
   padding: 10px;
   border-radius: 4px;
 }
@@ -34,7 +34,8 @@
 }
 .member-tabset > .nav-tabs > li.active > a {
   border: 0 !important;
-  color: #41587B;
+  background-color: #41587B !important;
+  color: #f8f9fa;
 }
 .member-tabset > .nav-tabs > li.active > a > i {
   color: #f8f9fa;
