@@ -30,6 +30,7 @@ namespace KaniWebApp.API.Helpers
                 }); ;
 
             CreateMap<Image, ImageForDetailedDto>();
+            CreateMap<UserForUpdateDto, User>();
         }
     }
 }
