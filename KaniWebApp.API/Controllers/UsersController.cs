@@ -15,10 +15,10 @@ namespace KaniWebApp.API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUsersRepository _repo;
+        private readonly IWebAppRepository _repo;
         private readonly IMapper _mapper;
 
-        public UsersController(IUsersRepository repo, IMapper mapper)
+        public UsersController(IWebAppRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;

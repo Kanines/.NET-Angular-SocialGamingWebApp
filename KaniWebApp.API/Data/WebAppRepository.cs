@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KaniWebApp.API.Data
 {
-    public class UsersRepository : IUsersRepository
+    public class WebAppRepository : IWebAppRepository
     {
         private readonly DataContext _context;
 
-        public UsersRepository(DataContext context)
+        public WebAppRepository(DataContext context)
         {
             _context = context;
         }
@@ -22,6 +22,13 @@ namespace KaniWebApp.API.Data
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
+        }
+
+        public async Task<Image> GetImage(int id)
+        {
+            var image = await _context.Images.FirstOrDefaultAsync( i => i.Id == id);
+
+            return image;
         }
 
         public async Task<User> GetUser(int id)
