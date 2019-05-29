@@ -95,5 +95,32 @@ namespace KaniWebApp.API.Controllers
 
             return BadRequest("Could not add the photo");
         }
+
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainImage(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+
+            if (!user.Images.Any(i => i.Id == id))
+                return Unauthorized();
+
+            var imageFromRepo = await _repo.GetImage(id);
+
+            if (imageFromRepo.IsMain)
+                return BadRequest("This is already the main image");
+
+            var currentMainImage = await _repo.GetMainImageForUser(userId);
+            currentMainImage.IsMain = false;
+
+            imageFromRepo.IsMain = true;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Could not set image to main");
+        }
     }
 }

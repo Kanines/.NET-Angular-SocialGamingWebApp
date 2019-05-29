@@ -12,5 +12,6 @@ namespace KaniWebApp.API.Data
          Task<IEnumerable<User>> GetUsers();
          Task<User> GetUser(int id);
          Task<Image> GetImage (int id);
+         Task<Image> GetMainImageForUser(int userId);
     }
 }

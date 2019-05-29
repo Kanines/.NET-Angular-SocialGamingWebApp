@@ -48,8 +48,8 @@
               </div>
             </form>
           </tab>
-          <tab heading="Edit Photos">
-            <p>TO DO photo edit</p>
+          <tab heading="Edit Images">
+            <app-image-editor [images]="user.images" (getMemberImageChange)="updateMainImage($event)"></app-image-editor>
           </tab>
         </tabset>
       </div>

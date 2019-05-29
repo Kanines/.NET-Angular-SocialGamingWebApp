@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using KaniWebApp.API.Models;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,11 @@ namespace KaniWebApp.API.Data
             var image = await _context.Images.FirstOrDefaultAsync( i => i.Id == id);
 
             return image;
+        }
+
+        public async Task<Image> GetMainImageForUser(int userId)
+        {
+            return await _context.Images.Where(i => i.UserId == userId).FirstOrDefaultAsync(i => i.IsMain);
         }
 
         public async Task<User> GetUser(int id)
