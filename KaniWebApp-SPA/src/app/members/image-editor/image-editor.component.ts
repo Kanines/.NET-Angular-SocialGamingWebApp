@@ -62,9 +62,22 @@ export class ImageEditorComponent implements OnInit {
       this.currentMain = this.images.filter(i => i.isMain === true)[0];
       this.currentMain.isMain = false;
       image.isMain = true;
-      this.getMemberImageChange.emit(image.url);
+      this.authService.changeMemberImage(image.url);
+      this.authService.currentUser.imageUrl = image.url;
+      localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  deleteImage(id: number) {
+    this.alertify.confirm('Are you sure you want to delete this image?', () => {
+      this.userService.deleteImage(this.authService.decodedToken.nameid, id).subscribe(() => {
+        this.images.splice(this.images.findIndex(i => i.id === id), 1);
+        this.alertify.success('Image has been deleted');
+      }, error => {
+        this.alertify.error('Failed to delete the image');
+      });
+    }, 'Confirm deletion');
   }
 }

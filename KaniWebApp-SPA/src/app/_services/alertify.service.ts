@@ -8,13 +8,20 @@ export class AlertifyService {
 
   constructor() { }
 
-
-  confirm(message: string, okCallback: () => any) {
-    alertify.confirm(message, function (e) {
-      if (e) {
-        okCallback();
-      } else { }
-    })
+  confirm(message: string, okCallback: () => any, title?: string) {
+    if (title != null) {
+      alertify.confirm(title, message, function (e) {
+        if (e) {
+          okCallback();
+        } else { }
+      }, null);
+    } else {
+      alertify.confirm(message, function (e) {
+        if (e) {
+          okCallback();
+        } else { }
+      });
+    }
   }
 
   success(message: string, ) {

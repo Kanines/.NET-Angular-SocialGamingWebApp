@@ -122,5 +122,43 @@ namespace KaniWebApp.API.Controllers
 
             return BadRequest("Could not set image to main");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteImage(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+
+            if (!user.Images.Any(i => i.Id == id))
+                return Unauthorized();
+
+            var imageFromRepo = await _repo.GetImage(id);
+
+            if (imageFromRepo.IsMain)
+                return BadRequest("You cannot delete your main image");
+
+            if (imageFromRepo.PublicId != null)
+            {
+                var deleteParams = new DeletionParams(imageFromRepo.PublicId);
+                var result = _cloudinary.Destroy(deleteParams);
+
+                if (result.Result == "ok")
+                {
+                    _repo.Delete(imageFromRepo);
+                }
+            }
+
+            if (imageFromRepo.PublicId == null)
+            {
+                _repo.Delete(imageFromRepo);
+            }
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to delete the image");
+        }
     }
 }
