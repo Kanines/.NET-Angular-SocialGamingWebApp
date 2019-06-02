@@ -53,6 +53,11 @@ export class ImageEditorComponent implements OnInit {
           isMain: res.isMain
         };
         this.images.push(image);
+        if (image.isMain) {
+          this.authService.changeMemberImage(image.url);
+          this.authService.currentUser.imageUrl = image.url;
+          localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
+        }
       }
     }
   }
@@ -69,6 +74,7 @@ export class ImageEditorComponent implements OnInit {
       this.alertify.error(error);
     });
   }
+
 
   deleteImage(id: number) {
     this.alertify.confirm('Are you sure you want to delete this image?', () => {

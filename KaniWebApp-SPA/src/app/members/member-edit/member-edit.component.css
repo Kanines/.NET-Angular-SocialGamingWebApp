@@ -3,6 +3,8 @@
     width: 90%;
     height: 90%;
     align-self: center;
+    object-fit: contain;
+    background-color: black;
 }
 .card-body {
     padding: 0 25px;

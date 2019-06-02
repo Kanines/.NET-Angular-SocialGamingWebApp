@@ -33,6 +33,7 @@ namespace KaniWebApp.API.Helpers
             CreateMap<UserForUpdateDto, User>();
             CreateMap<Image, ImageForReturnDto>();
             CreateMap<ImageForCreationDto, Image>();
+            CreateMap<UserForRegisterDto, User>();
         }
     }
 }
