@@ -1,10 +1,11 @@
 .img-thumbnail {
     margin: 25px;
-    width: 90%;
-    height: 90%;
+    max-height: 300px;
+    max-width: 300px;
     align-self: center;
     object-fit: contain;
     background-color: black;
+
 }
 .card-body {
     padding: 0 25px;
