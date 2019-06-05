@@ -11,5 +11,8 @@ namespace KaniWebApp.API.Helpers
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
 
+        public int UserId { get; set; }
+        public string Nickname { get; set; }
+        public string Rank { get; set; }
     }
 }

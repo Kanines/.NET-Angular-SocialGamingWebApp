@@ -1,4 +1,30 @@
-<div class="container mt-5">
+<div class="text-center mt-3">
+  <h5>{{pagination.totalItems}} users found</h5>
+</div>
+
+<div class="container mt-3">
+
+  <form class="form-inline" #form="ngForm" (ngSubmit)="loadUsers()" novalidate>
+    <div class="form-group">
+      <label for="nickname">Nickname: </label>
+      <input type="text" class="form-control ml-1" style="width: 180px" id="nickname" [(ngModel)]="userParams.nickname"
+        name="nickname">
+    </div>
+
+    <div class="form-group px-2">
+      <label for="rank">Rank: </label>
+      <select class="form-control ml-1" style="width: 100px" id="rank" [(ngModel)]="userParams.rank" name="rank">
+        <option *ngFor="let rank of rankList" [value]="rank.value">
+          {{rank.display}}
+        </option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-left:10px">Apply Filters</button>
+    <button type="button" class="btn btn-info" (click)="resetFilters()" style="margin-left:10px">Reset Filter</button>
+  </form>
+
+  <br>
+
   <div class="row">
     <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
       <app-member-card [user]="user"></app-member-card>

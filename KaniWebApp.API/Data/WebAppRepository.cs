@@ -47,7 +47,14 @@ namespace KaniWebApp.API.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(i => i.Images);
+            var users = _context.Users.Include(i => i.Images).AsQueryable();
+
+            users = users.Where(u => u.Id != userParams.UserId);
+
+            users = users.Where(u => u.Nickname.CaseInsensitiveContains(userParams.Nickname));
+
+            // TO DO: add ranks to user model
+            //users = users.Where(u => u.Rank == userParams.Rank);
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }

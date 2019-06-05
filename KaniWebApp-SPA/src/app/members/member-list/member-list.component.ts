@@ -12,6 +12,8 @@ import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 })
 export class MemberListComponent implements OnInit {
   users: User[];
+  rankList = [{ value: '', display: 'Any' }, { value: 'newbie', display: 'Newbie' }];
+  userParams: any = {};
   pagination: Pagination;
 
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
@@ -21,6 +23,9 @@ export class MemberListComponent implements OnInit {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
     });
+
+    this.userParams.nickname = '';
+    this.userParams.rank = '';
   }
 
   pageChanged(event: any): void {
@@ -28,8 +33,15 @@ export class MemberListComponent implements OnInit {
     this.loadUsers();
   }
 
+  resetFilters() {
+    this.userParams.nickname = '';
+    this.userParams.rank = '';
+    this.loadUsers();
+  }
+
   loadUsers() {
-    this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<User[]>) => {
+    this.userService.getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
+    .subscribe((res: PaginatedResult<User[]>) => {
       this.users = res.result;
       this.pagination = res.pagination;
     }, error => {
