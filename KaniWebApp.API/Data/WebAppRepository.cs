@@ -28,7 +28,7 @@ namespace KaniWebApp.API.Data
 
         public async Task<Image> GetImage(int id)
         {
-            var image = await _context.Images.FirstOrDefaultAsync( i => i.Id == id);
+            var image = await _context.Images.FirstOrDefaultAsync(i => i.Id == id);
 
             return image;
         }
@@ -47,7 +47,7 @@ namespace KaniWebApp.API.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(i => i.Images).AsQueryable();
+            var users = _context.Users.Include(i => i.Images).OrderByDescending(u => u.LastActive).AsQueryable();
 
             users = users.Where(u => u.Id != userParams.UserId);
 
@@ -55,6 +55,19 @@ namespace KaniWebApp.API.Data
 
             // TO DO: add ranks to user model
             //users = users.Where(u => u.Rank == userParams.Rank);
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }

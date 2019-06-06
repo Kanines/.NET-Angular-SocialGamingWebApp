@@ -26,6 +26,7 @@ export class MemberListComponent implements OnInit {
 
     this.userParams.nickname = '';
     this.userParams.rank = '';
+    this.userParams.orderBy = 'lastActive';
   }
 
   pageChanged(event: any): void {

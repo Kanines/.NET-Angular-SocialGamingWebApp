@@ -27,6 +27,7 @@ export class UserService {
     if (userParams != null) {
       params = params.append('nickname', userParams.nickname);
       params = params.append('rank', userParams.rank);
+      params = params.append('orderBy', userParams.orderBy);
     }
 
     return this.http.get<User[]>(this.baseUrl + 'users', { observe: 'response', params }).pipe(
