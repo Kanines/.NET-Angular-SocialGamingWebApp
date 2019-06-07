@@ -6,6 +6,7 @@ using AutoMapper;
 using KaniWebApp.API.Data;
 using KaniWebApp.API.Dtos;
 using KaniWebApp.API.Helpers;
+using KaniWebApp.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,7 +34,7 @@ namespace KaniWebApp.API.Controllers
 
             userParams.UserId = currentUserId;
 
-            if(string.IsNullOrEmpty(userParams.Nickname))
+            if (string.IsNullOrEmpty(userParams.Nickname))
             {
                 userParams.Nickname = "";
             }
@@ -71,6 +72,38 @@ namespace KaniWebApp.API.Controllers
                 return NoContent();
 
             throw new Exception($"Updating user {id} failed on save");
+        }
+
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var like = await _repo.GetLike(id, recipientId);
+
+            if (like != null)
+            {
+                return BadRequest("You have already added this user to your friend list");
+            }
+
+            if (await _repo.GetUser(recipientId) == null)
+            {
+                return NotFound();
+            }
+
+            like = new Like
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+
+            _repo.Add<Like>(like);
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to add user to friend list");
         }
     }
 }

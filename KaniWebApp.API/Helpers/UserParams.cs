@@ -15,5 +15,7 @@ namespace KaniWebApp.API.Helpers
         public string Nickname { get; set; }
         public string Rank { get; set; }
         public string OrderBy { get; set; }
+        public bool Likers { get; set; } = false;
+        public bool Likees { get; set; } = false;
     }
 }

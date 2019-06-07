@@ -18,5 +18,8 @@ namespace KaniWebApp.API.Models
         public string Country { get; set; }
         public string City { get; set; }
         public ICollection<Image> Images { get; set; }
+        public ICollection<Like> Likers { get; set; }
+        public ICollection<Like> Likees { get; set; }
+
     }
 }

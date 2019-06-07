@@ -14,5 +14,6 @@ namespace KaniWebApp.API.Data
         Task<User> GetUser(int id);
         Task<Image> GetImage(int id);
         Task<Image> GetMainImageForUser(int userId);
+        Task<Like> GetLike(int userId, int recipientId);
     }
 }
