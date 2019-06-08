@@ -18,7 +18,7 @@ namespace KaniWebApp.API.Helpers
                 {
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                 });
-                
+
             CreateMap<User, UserForDetailedDto>()
                 .ForMember(dest => dest.ImageUrl, opt =>
                 {
@@ -34,6 +34,11 @@ namespace KaniWebApp.API.Helpers
             CreateMap<Image, ImageForReturnDto>();
             CreateMap<ImageForCreationDto, Image>();
             CreateMap<UserForRegisterDto, User>();
+            CreateMap<MessageForCreationDto, Message>().ReverseMap();
+            CreateMap<Message, MessageToReturnDto>()
+                .ForMember(m => m.SenderImageUrl, opt => opt.MapFrom(u => u.Sender.Images.FirstOrDefault(i => i.IsMain).Url))
+                .ForMember(m => m.RecipientImageUrl, opt => opt.MapFrom(u => u.Recipient.Images.FirstOrDefault(i => i.IsMain).Url))
+
         }
     }
 }
