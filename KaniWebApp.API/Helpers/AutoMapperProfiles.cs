@@ -27,7 +27,7 @@ namespace KaniWebApp.API.Helpers
                 .ForMember(dest => dest.Age, opt =>
                 {
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
-                }); ;
+                });
 
             CreateMap<Image, ImageForDetailedDto>();
             CreateMap<UserForUpdateDto, User>();
