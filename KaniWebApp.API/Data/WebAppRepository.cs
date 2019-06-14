@@ -127,13 +127,13 @@ namespace KaniWebApp.API.Data
             switch (messageParams.MessageContainer)
             {
                 case "Inbox":
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId);
+                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false);
                     break;
                 case "Outbox":
-                    messages = messages.Where(u => u.SenderId == messageParams.UserId);
+                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.SenderDeleted == false);
                     break;
                 default:
-                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
+                    messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false && u.IsRead == false);
                     break;
             }
 
@@ -147,8 +147,8 @@ namespace KaniWebApp.API.Data
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(i => i.Images)
                 .Include(u => u.Recipient).ThenInclude(i => i.Images)
-                .Where(m => m.RecipientId == userId && m.SenderId == recipientId
-                    || m.RecipientId == recipientId && m.SenderId == userId)
+                .Where(m => m.RecipientId == userId && m.SenderId == recipientId && m.RecipientDeleted == false
+                    || m.RecipientId == recipientId && m.SenderId == userId && m.SenderDeleted == false)
                 .OrderByDescending(m => m.SentDate)
                 .ToListAsync();
 
